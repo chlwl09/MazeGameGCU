@@ -2,7 +2,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-
 public class MazeGenerator : MonoBehaviour
 {
     public Vector2Int mazeSize = new Vector2Int(25, 25);
@@ -19,6 +18,10 @@ public class MazeGenerator : MonoBehaviour
     [SerializeField] private bool isDrawGizmo;
 
     [SerializeField] private GameObject wallPrefab;
+    [SerializeField] private GameObject[] obstaclePrefabs; // 장애물 프리팹 배열
+    [SerializeField] private GameObject[] itemPrefabs; // 아이템 프리팹 배열
+    [SerializeField] private float obstacleSpawnProbability = 0.1f; // 장애물 생성 확률
+    [SerializeField] private float itemSpawnProbability = 0.05f; // 아이템 생성 확률
 
     private void Awake()
     {
@@ -52,14 +55,11 @@ public class MazeGenerator : MonoBehaviour
             if (!isDrawGizmo)
             {
                 BuildWalls();
+                SpawnObstaclesAndItems(); // 장애물과 아이템 생성
             }
         }
     }
 
-    /// <summary>
-    /// 블럭을 초기화 하는 함수.
-    /// A function that initializes blocks.
-    /// </summary>
     private void InitBlocks()
     {
         for (int x = 0; x < BlockSize.x; x++)
@@ -71,11 +71,6 @@ public class MazeGenerator : MonoBehaviour
         }
     }
 
-    /// <summary>
-    /// 행의 블럭을 순차적으로 접근하면서 선택한 블럭과 오른쪽 블럭을 랜덤하게 합치는 함수.
-    /// A function of randomly merge the selected block and the right block while sequentially approaching the blocks of the row.
-    /// </summary>
-    /// <param name="row">현재 행 (current row)</param>
     private void RandomMergeRowBlocks(int row)
     {
         for (int x = 0; x < BlockSize.x - 1; x++)
@@ -92,11 +87,6 @@ public class MazeGenerator : MonoBehaviour
         }
     }
 
-    /// <summary>
-    /// 현재 행에서 가지를 내리는 함수
-    /// A function of branching off the current row.
-    /// </summary>
-    /// <param name="row">현재 행 (current row)</param>
     private void DropDownGroups(int row)
     {
         _lastRowBlocks.Clear();
@@ -138,10 +128,6 @@ public class MazeGenerator : MonoBehaviour
         }
     }
 
-    /// <summary>
-    /// 마지막 줄을 정리하는 함수
-    /// A function that organizes the last line.
-    /// </summary>
     private void OrganizeLastLine()
     {
         var lastRow = BlockSize.y - 1;
@@ -295,6 +281,35 @@ public class MazeGenerator : MonoBehaviour
         }
     }
 
+    private void SpawnObstaclesAndItems()
+    {
+        for (int x = 0; x < mazeSize.x; x++)
+        {
+            for (int y = 0; y < mazeSize.y; y++)
+            {
+                // 벽이 없는 경우에만 장애물과 아이템을 생성
+                if (!_existWalls[x, y]) continue;
+
+                var mazeHalfSize = new Vector3(mazeSize.x, 0, mazeSize.y) / 2;
+                var spawnPosition = new Vector3(x, 0.5f, y) - mazeHalfSize + transform.position;
+
+                // 장애물 생성
+                if (Random.value < obstacleSpawnProbability)
+                {
+                    var obstaclePrefab = obstaclePrefabs[Random.Range(0, obstaclePrefabs.Length)];
+                    Instantiate(obstaclePrefab, spawnPosition, Quaternion.identity, transform);
+                }
+                // 아이템 생성
+                else if (Random.value < itemSpawnProbability)
+                {
+                    var itemPrefab = itemPrefabs[Random.Range(0, itemPrefabs.Length)];
+                    Instantiate(itemPrefab, spawnPosition, Quaternion.identity, transform);
+                }
+            }
+        }
+    }
+
+
     private void OnDrawGizmos()
     {
         if (Application.isPlaying && isDrawGizmo)
@@ -315,6 +330,7 @@ public class MazeGenerator : MonoBehaviour
             }
         }
     }
+
     public class Block
     {
         public int BlockNumber { get; private set; }
@@ -335,6 +351,7 @@ public class MazeGenerator : MonoBehaviour
         public Vector2Int GetPosition(Vector2Int size) => GetPosition(BlockNumber, size);
         public int GetParentIndex(Vector2Int size) => BlockNumber * size.x + BlockNumber % size.y;
     }
+
     public class DisjointSet
     {
         public int ParentsSize { get; private set; }
@@ -372,8 +389,7 @@ public class MazeGenerator : MonoBehaviour
             a = Find(a);
             b = Find(b);
 
-            if (a == b) return true;
-            else return false;
+            return a == b;
         }
     }
 

@@ -8,7 +8,7 @@ public class PlayerMovement : MonoBehaviour
 
     public float rotateSpeed = 10.0f;
 
-    public float jumpForce = 10.0f;
+    public float jumpForce = 1.0f;
 
     private bool isGround = true;
 

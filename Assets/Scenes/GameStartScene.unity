@@ -1352,7 +1352,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1428571509}
         m_TargetAssemblyTypeName: StartMenu, Assembly-CSharp
-        m_MethodName: MediumMode
+        m_MethodName: EasyMode
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

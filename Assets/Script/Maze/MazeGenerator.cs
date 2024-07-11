@@ -35,15 +35,7 @@ public class MazeGenerator : MonoBehaviour
         _disjointSet = new DisjointSet(disjointSetSize);
 
 
-        /*if (Instance == null)
-        {
-            Instance = this;
-            DontDestroyOnLoad(gameObject);
-        }
-        else
-        {
-            Destroy(gameObject);
-        }*/
+       
     }
     public void SetMazeSize(Vector2Int size)
     {

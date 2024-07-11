@@ -17,7 +17,7 @@ public class MainCameraAction : MonoBehaviour
     void FixedUpdate()
     {
         // 타겟의 x, y, z 좌표에 카메라의 좌표를 더하여 카메라의 위치를 결정
-        TargetPos = new Vector3(
+        TargetPos = new Vector3(    
             Target.transform.position.x + offsetX,
             Target.transform.position.y + offsetY,
             Target.transform.position.z + offsetZ

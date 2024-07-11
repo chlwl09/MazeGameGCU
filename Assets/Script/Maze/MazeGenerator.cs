@@ -17,11 +17,13 @@ public class MazeGenerator : MonoBehaviour
     [SerializeField] private bool isDelayCreate;
     [SerializeField] private bool isDrawGizmo;
 
-    [SerializeField] private GameObject wallPrefab;
-    [SerializeField] private GameObject[] obstaclePrefabs; // 장애물 프리팹 배열
-    [SerializeField] private GameObject[] itemPrefabs; // 아이템 프리팹 배열
+    [SerializeField] GameObject wallPrefab;
+    [SerializeField] GameObject[] obstaclePrefabs; // 장애물 프리팹 배열
+    [SerializeField] GameObject[] itemPrefabs; // 아이템 프리팹 배열
     [SerializeField] private float obstacleSpawnProbability = 0.1f; // 장애물 생성 확률
     [SerializeField] private float itemSpawnProbability = 0.05f; // 아이템 생성 확률
+
+    public static MazeGenerator Instance;
 
     private void Awake()
     {
@@ -31,6 +33,21 @@ public class MazeGenerator : MonoBehaviour
         _blocks = new Block[size.x, size.y];
         _existWalls = new bool[mazeSize.x, mazeSize.y];
         _disjointSet = new DisjointSet(disjointSetSize);
+
+
+        if (Instance == null)
+        {
+            Instance = this;
+            DontDestroyOnLoad(gameObject);
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
+    }
+    public void SetMazeSize(Vector2Int size)
+    {
+        mazeSize = size;
     }
 
     private void Start()
@@ -272,14 +289,22 @@ public class MazeGenerator : MonoBehaviour
             {
                 if (_existWalls[x, y]) continue;
 
-                var myTransform = transform;
                 var mazeHalfSize = new Vector3(mazeSize.x, 0, mazeSize.y) / 2;
-                var wallPosition = new Vector3(x, 0.5f, y) - mazeHalfSize + myTransform.position;
+                var wallPosition = new Vector3(x, 0.5f, y) - mazeHalfSize + transform.position;
 
-                Instantiate(wallPrefab, wallPosition, Quaternion.identity, myTransform);
+                // wallPrefab이 null이 아닌지 확인 후 인스턴스화
+                if (wallPrefab != null)
+                {
+                    Instantiate(wallPrefab, wallPosition, Quaternion.identity, transform);
+                }
+                else
+                {
+                    Debug.LogError("wallPrefab이 할당되지 않았습니다!");
+                }
             }
         }
     }
+
 
     private void SpawnObstaclesAndItems()
     {
@@ -287,7 +312,7 @@ public class MazeGenerator : MonoBehaviour
         {
             for (int y = 0; y < mazeSize.y; y++)
             {
-                // 벽이 없는 경우에만 장애물과 아이템을 생성
+                // 벽이 있는 경우에는 스킵
                 if (!_existWalls[x, y]) continue;
 
                 var mazeHalfSize = new Vector3(mazeSize.x, 0, mazeSize.y) / 2;
@@ -308,9 +333,8 @@ public class MazeGenerator : MonoBehaviour
             }
         }
     }
-
-
-    private void OnDrawGizmos()
+        
+private void OnDrawGizmos()
     {
         if (Application.isPlaying && isDrawGizmo)
         {

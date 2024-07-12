@@ -26,6 +26,8 @@ public class MazeGenerator : MonoBehaviour
 
     private void Awake()
     {
+        mazeSize = GameManager.Instance.GetMazeSize();
+        Debug.Log(mazeSize);
         var size = BlockSize;
         var disjointSetSize = BlockSize.x * BlockSize.y;
 

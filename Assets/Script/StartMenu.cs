@@ -10,8 +10,8 @@ public class StartMenu : MonoBehaviour
     {
         if (MazeGenerator.Instance == null)
         {
-            GameObject gameManager = new GameObject("MazeGen");
-            gameManager.AddComponent<MazeGenerator>();
+            //GameObject gameManager = new GameObject("MazeGen");
+            //gameManager.AddComponent<MazeGenerator>();
         }
     }
 

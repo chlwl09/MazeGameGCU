@@ -6,7 +6,7 @@ public class GameManager : MonoBehaviour
 {
     public static GameManager Instance;
 
-    private Vector2Int mazeSize = new Vector2Int(25, 25); // 기본 미로 크기
+    private Vector2Int mazeSize = new Vector2Int(25, 25); // 기본 미로 크기 초기화
 
     private void Awake()
     {

@@ -4,8 +4,9 @@ using UnityEngine;
 
 public class MazeGenerator : MonoBehaviour
 {
-    public Vector2Int mazeSize = new Vector2Int(25, 25);
+    public static MazeGenerator Instance;
 
+    public Vector2Int mazeSize;
     private Vector2Int BlockSize => mazeSize / 2;
 
     private Block[,] _blocks;
@@ -23,8 +24,6 @@ public class MazeGenerator : MonoBehaviour
     [SerializeField] private float obstacleSpawnProbability = 0.1f; // 장애물 생성 확률
     [SerializeField] private float itemSpawnProbability = 0.05f; // 아이템 생성 확률
 
-    public static MazeGenerator Instance;
-
     private void Awake()
     {
         var size = BlockSize;
@@ -33,10 +32,8 @@ public class MazeGenerator : MonoBehaviour
         _blocks = new Block[size.x, size.y];
         _existWalls = new bool[mazeSize.x, mazeSize.y];
         _disjointSet = new DisjointSet(disjointSetSize);
-
-
-       
     }
+
     public void SetMazeSize(Vector2Int size)
     {
         mazeSize = size;
@@ -297,7 +294,6 @@ public class MazeGenerator : MonoBehaviour
         }
     }
 
-
     private void SpawnObstaclesAndItems()
     {
         for (int x = 0; x < mazeSize.x; x++)
@@ -325,8 +321,8 @@ public class MazeGenerator : MonoBehaviour
             }
         }
     }
-        
-private void OnDrawGizmos()
+
+    private void OnDrawGizmos()
     {
         if (Application.isPlaying && isDrawGizmo)
         {

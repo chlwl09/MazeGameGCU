@@ -17,27 +17,27 @@ public class StartMenu : MonoBehaviour
 
     public void EasyMode()
     {
-        if (MazeGenerator.Instance != null)
+        if (GameManager.Instance != null)
         {
-            MazeGenerator.Instance.SetMazeSize(new Vector2Int(15, 15));
+            GameManager.Instance.SetMazeSize(new Vector2Int(25, 25));
             SceneManager.LoadScene("MazeGameScene");
         }
     }
 
     public void MediumMode()
     {
-        if (MazeGenerator.Instance != null)
+        if (GameManager.Instance != null)
         {
-            MazeGenerator.Instance.SetMazeSize(new Vector2Int(25, 25));
+            GameManager.Instance.SetMazeSize(new Vector2Int(35, 35));
             SceneManager.LoadScene("MazeGameScene");
         }
     }
 
     public void HardMode()
     {
-        if (MazeGenerator.Instance != null)
+        if (GameManager.Instance != null)
         {
-            MazeGenerator.Instance.SetMazeSize(new Vector2Int(35, 35));
+            GameManager.Instance.SetMazeSize(new Vector2Int(51, 51));
             SceneManager.LoadScene("MazeGameScene");
         }
     }

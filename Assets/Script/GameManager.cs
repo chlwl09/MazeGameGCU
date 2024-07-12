@@ -4,9 +4,10 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
-    public static GameManager Instance;
+    public static GameManager Instance { get; private set; }
 
-    private Vector2Int mazeSize = new Vector2Int(25, 25); // 기본 미로 크기 초기화
+    private Vector2Int mazeSize;
+    private Vector3 playerStartPosition;
 
     private void Awake()
     {
@@ -21,13 +22,23 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    public void SetMazeSize(Vector2Int newSize)
+    public void SetMazeSize(Vector2Int size)
     {
-        mazeSize = newSize;
+        mazeSize = size;
     }
 
     public Vector2Int GetMazeSize()
     {
         return mazeSize;
+    }
+
+    public void SetPlayerStartPosition(Vector3 position)
+    {
+        playerStartPosition = position;
+    }
+
+    public Vector3 GetPlayerStartPosition()
+    {
+        return playerStartPosition;
     }
 }

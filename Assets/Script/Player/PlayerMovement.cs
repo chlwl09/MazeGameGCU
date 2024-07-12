@@ -12,13 +12,15 @@ public class PlayerMovement : MonoBehaviour
 
     private bool isGround = true;
 
+    public GameObject playerSoundEffect;
+
     Rigidbody body;                      
 
     float h, v;
 
     void Start()
     {
-        body = GetComponent<Rigidbody>();  
+        body = GetComponent<Rigidbody>();
     }
 
     void Update()
@@ -43,9 +45,22 @@ public class PlayerMovement : MonoBehaviour
         {
             transform.position += dir * Speed * Time.deltaTime;
             transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.LookRotation(dir), Time.deltaTime * rotateSpeed);
+
+            // 플레이어가 움직일 때 playerSoundEffect 오브젝트를 활성화
+            if (!playerSoundEffect.activeInHierarchy)
+            {
+                playerSoundEffect.SetActive(true);
+            }
+        }
+        else
+        {
+            // 플레이어가 멈출 때 playerSoundEffect 오브젝트를 비활성화
+            if (playerSoundEffect.activeInHierarchy)
+            {
+                playerSoundEffect.SetActive(false);
+            }
         }
     }
-
     void Jump()
     {
         if (Input.GetKey(KeyCode.Space) && isGround)

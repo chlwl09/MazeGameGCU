@@ -13,17 +13,20 @@ public class GameManager : MonoBehaviour
     {
         if (Instance == null)
         {
+            Debug.Log("GameManager Instance created");
             Instance = this;
             DontDestroyOnLoad(gameObject);
         }
         else
         {
+            Debug.Log("GameManager Instance already exists, destroying new instance");
             Destroy(gameObject);
         }
     }
 
     public void SetMazeSize(Vector2Int size)
     {
+        Debug.Log("Setting maze size to " + size);
         mazeSize = size;
     }
 
@@ -34,6 +37,7 @@ public class GameManager : MonoBehaviour
 
     public void SetPlayerStartPosition(Vector3 position)
     {
+        Debug.Log("Setting player start position to " + position);
         playerStartPosition = position;
     }
 

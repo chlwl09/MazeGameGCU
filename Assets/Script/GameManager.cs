@@ -8,6 +8,7 @@ public class GameManager : MonoBehaviour
 
     private Vector2Int mazeSize;
     private Vector3 playerStartPosition;
+    private Vector3 GameClearPos;    
 
     private void Awake()
     {
@@ -37,12 +38,21 @@ public class GameManager : MonoBehaviour
 
     public void SetPlayerStartPosition(Vector3 position)
     {
-        Debug.Log("Setting player start position to " + position);
         playerStartPosition = position;
     }
 
     public Vector3 GetPlayerStartPosition()
     {
         return playerStartPosition;
+    }
+
+    public void SetGameClearPosition(Vector3 position)
+    {
+        GameClearPos = position;
+    }
+
+    public Vector3 GetGameClearPosition()
+    {
+        return GameClearPos;
     }
 }

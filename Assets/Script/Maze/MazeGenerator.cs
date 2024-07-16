@@ -41,7 +41,7 @@ public class MazeGenerator : MonoBehaviour
         mazeSize = size;
     }
 
-    private void Start()    
+    private void Start()
     {
         InitBlocks();
 

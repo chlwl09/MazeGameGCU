@@ -2427,9 +2427,9 @@ MonoBehaviour:
   isDrawGizmo: 0
   wallPrefab: {fileID: 8936335799897465599, guid: 38ee11fcc5d86d34e81eb9d1e40d3a53, type: 3}
   obstaclePrefabs:
-  - {fileID: 1287924687352367122, guid: 6519cfce6a10e1a419fd0498e382730e, type: 3}
-  itemPrefabs:
   - {fileID: 2352022555984853631, guid: 03254d2c993f73844a75d2c53f3ee340, type: 3}
+  itemPrefabs:
+  - {fileID: 1287924687352367122, guid: 6519cfce6a10e1a419fd0498e382730e, type: 3}
   obstacleSpawnProbability: 0.01
   itemSpawnProbability: 0.01
 --- !u!1 &680559277

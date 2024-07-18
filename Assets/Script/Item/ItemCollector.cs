@@ -1,10 +1,9 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class ItemCollector : MonoBehaviour
 {
-    private GameObject arrowTarget;
+    public GameObject arrowTarget; // 화살표를 참조하는 변수 추가
 
     private void Start()
     {
@@ -28,9 +27,10 @@ public class ItemCollector : MonoBehaviour
             }
             else
             {
-                Debug.LogError("화살표 태그를 가진 오브젝트가 없음 2.");
+                Debug.LogError("화살표 태그를 가진 오브젝트가 없음.");
             }
         }
+        Destroy(gameObject);
     }
 
     private IEnumerator ShowArrowTarget(GameObject arrowTarget)

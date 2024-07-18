@@ -5195,7 +5195,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   target: {fileID: 1670200085}
-  Arrow: {fileID: 1481846150}
 --- !u!64 &1481846152
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -5756,6 +5755,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   player: {fileID: 3748949864056252807}
   GameClear: {fileID: 1670200085}
+  arrowTarget: {fileID: 1670200085}
 --- !u!4 &1575394688
 Transform:
   m_ObjectHideFlags: 0

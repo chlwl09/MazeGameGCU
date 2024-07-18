@@ -1,41 +1,43 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
 
 public class ItemCollector : MonoBehaviour
 {
-    public GameObject clearObject; 
-    public Text hintText; 
-    private bool isHintActive = false;
+    private GameObject arrowTarget;
 
-    void Start()
+    private void Start()
     {
-        hintText.enabled = false; 
+        arrowTarget = GameObject.FindWithTag("Arrow");
+        if (arrowTarget == null)
+        {
+            Debug.LogError("화살표 태그 없음.");
+        }
     }
 
-    void OnTriggerEnter(Collider other)
+    private void OnCollisionEnter(Collision collision)
     {
-        if (other.CompareTag("Item")) 
+        if (collision.gameObject.CompareTag("Player"))
         {
-            Destroy(other.gameObject);
-            if (!isHintActive)
+            Debug.Log("플레이어 충돌");
+
+            if (arrowTarget != null)
             {
-                StartCoroutine(ShowClearObjectLocation());
+                Debug.Log("화살표 켜짐");
+                StartCoroutine(ShowArrowTarget(arrowTarget));
+            }
+            else
+            {
+                Debug.LogError("화살표 태그를 가진 오브젝트가 없음 2.");
             }
         }
     }
 
-    IEnumerator ShowClearObjectLocation()
+    private IEnumerator ShowArrowTarget(GameObject arrowTarget)
     {
-        isHintActive = true;
-        Vector3 clearObjectPosition = clearObject.transform.position;
-        hintText.text = "Game Clear Object is at: " + clearObjectPosition;
-        hintText.enabled = true;
-
-        yield return new WaitForSeconds(3);
-
-        hintText.enabled = false;
-        isHintActive = false;
+        arrowTarget.SetActive(true);
+        yield return new WaitForSeconds(3f);
+        arrowTarget.SetActive(false);
+        Debug.Log("화살표 꺼짐");
     }
 }
